@@ -1,10 +1,10 @@
 /**
  * OOPSBannerApp
  *
- * UC7: Store Character Pattern in a Class using static inner class
+ * UC8: Use HashMap for character patterns and render via function
  *
  * @author YourName
- * @version 7.0
+ * @version 8.0
  */
 
 import java.util.HashMap;
@@ -14,11 +14,17 @@ public class OOPSBannerApp {
 
     public static void main(String[] args) {
 
-        String word = "OOPS";
+        Map<Character, String[]> patternMap = buildPatternMap();
 
-        Map<Character, CharacterPatternMap> patternMap = new HashMap<>();
+        renderBanner("OOPS", patternMap);
+    }
 
-        patternMap.put('O', new CharacterPatternMap('O', new String[]{
+    // Build pattern map using HashMap
+    public static Map<Character, String[]> buildPatternMap() {
+
+        Map<Character, String[]> map = new HashMap<>();
+
+        map.put('O', new String[]{
                 " ***** ",
                 "*     *",
                 "*     *",
@@ -26,9 +32,9 @@ public class OOPSBannerApp {
                 "*     *",
                 "*     *",
                 " ***** "
-        }));
+        });
 
-        patternMap.put('P', new CharacterPatternMap('P', new String[]{
+        map.put('P', new String[]{
                 " ***** ",
                 "*     *",
                 "*     *",
@@ -36,9 +42,9 @@ public class OOPSBannerApp {
                 "*      ",
                 "*      ",
                 "*      "
-        }));
+        });
 
-        patternMap.put('S', new CharacterPatternMap('S', new String[]{
+        map.put('S', new String[]{
                 " ***** ",
                 "*      ",
                 "*      ",
@@ -46,37 +52,30 @@ public class OOPSBannerApp {
                 "      *",
                 "      *",
                 " ***** "
-        }));
+        });
 
-        for (int row = 0; row < 7; row++) {
+        return map;
+    }
+
+    // Render banner using nested loops and StringBuilder
+    public static void renderBanner(String word, Map<Character, String[]> patternMap) {
+
+        int height = 7;
+
+        for (int row = 0; row < height; row++) {
+
             StringBuilder line = new StringBuilder();
 
             for (char c : word.toCharArray()) {
-                CharacterPatternMap pattern = patternMap.get(c);
-                line.append(pattern.getPattern()[row]).append("    ");
+
+                String[] pattern = patternMap.get(c);
+
+                if (pattern != null) {
+                    line.append(pattern[row]).append("    ");
+                }
             }
 
             System.out.println(line);
-        }
-    }
-
-    // Static Inner Class
-    static class CharacterPatternMap {
-
-        private char character;
-        private String[] pattern;
-
-        public CharacterPatternMap(char character, String[] pattern) {
-            this.character = character;
-            this.pattern = pattern;
-        }
-
-        public char getCharacter() {
-            return character;
-        }
-
-        public String[] getPattern() {
-            return pattern;
         }
     }
 }
